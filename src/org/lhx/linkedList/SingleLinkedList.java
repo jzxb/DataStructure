@@ -93,6 +93,30 @@ public class SingleLinkedList {
         return cur;
     }
 
+    public static void reverseList(HeroNode head){
+        //当前链表为空，或只有一个节点，无需反转直接返回
+        if (head.next == null || head.next.next == null){
+            return;
+        }
+
+        //定义一个辅助变量，帮助遍历链表
+        HeroNode cur = head.next;
+        //指向当前节点【cur】的下一个节点
+        HeroNode next = null;
+        HeroNode reverseNode = new HeroNode(0,"","");
+        //遍历链表，每遍历一个节点，就将其取出，并放在新的链表的reverseNode的最前端
+        while (cur != null){
+            //先暂时保存当前节点的下一个节点
+            next = cur.next;
+            //将cur的下一个节点指向新的链表的最前端
+            cur.next = reverseNode.next;
+            reverseNode.next = cur;
+            //cur后移
+            cur = next;
+        }
+        head.next = reverseNode.next;
+    }
+
     /**
      *
      * @param head 链表的头节点
