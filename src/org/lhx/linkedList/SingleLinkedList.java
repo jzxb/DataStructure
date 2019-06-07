@@ -21,6 +21,97 @@ public class SingleLinkedList {
         temp.next = heroNode;
     }
 
+    //修改节点信息，根据no编号修改
+    public void update(HeroNode heroNode){
+        if (head.next == null){
+            throw new RuntimeException("链表为空");
+        }
+
+        HeroNode temp = head.next;
+        //表示是否找到该节点
+        boolean flag = false;
+        while(true){
+            if (temp == null){
+                //链表遍历结束
+                break;
+            }
+            if (temp.getNo() == heroNode.getNo()){
+                flag = true;
+                break;
+            }
+            temp = temp.next;
+        }
+
+        if (flag == true){
+            temp.setName(heroNode.getName());
+            temp.setNickname(heroNode.getNickname());
+        }else{
+            System.out.println("没有找到对应的节点");
+        }
+    }
+
+    public void del(int no){
+        HeroNode temp = head;
+        //标记是否找到待删除的节点
+        boolean flag = false;
+        while (true){
+            if (temp == null){
+                //链表遍历结束
+                break;
+            }
+            if(temp.next.getNo() == no){
+                flag = true;
+                break;
+            }
+            temp = temp.next
+        }
+
+        if (flag == true){
+            temp.next = temp.next.next;
+        }else {
+            System.out.println("要删除的节点不存在");
+        }
+    }
+
+    public static HeroNode findLastIndexNode(HeroNode head,int index){
+        if (head.next == null){
+            return null;
+        }
+
+        //遍历得到链表长度
+        int length = getLength(head);
+        //校验index是否有效
+        if (index <= 0 || index > length){
+            return null;
+        }
+
+        HeroNode cur = head.next;
+        //循环遍历到index的位置
+        for (int i = 0; i < length - index; i++) {
+            cur = cur.next;
+        }
+        return cur;
+    }
+
+    /**
+     *
+     * @param head 链表的头节点
+     * @return  有效节点的个数
+     */
+    public static int getLength(HeroNode head){
+        if (head.next == null){
+            return 0;
+        }
+
+        int length = 0;
+        HeroNode cur = head.next;
+        while (cur != null){
+            length++;
+            cur = cur.next;
+        }
+        return length;
+    }
+
     public void addByOrder(HeroNode heroNode){
         HeroNode temp = head;
         //添加的编号是否存在
