@@ -63,7 +63,7 @@ public class SingleLinkedList {
                 flag = true;
                 break;
             }
-            temp = temp.next
+            temp = temp.next;
         }
 
         if (flag == true){
