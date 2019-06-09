@@ -1,5 +1,7 @@
 package org.lhx.linkedList;
 
+import java.util.Stack;
+
 /**
  * @author lhx
  * @date 2019/6/5 - 14:57
@@ -73,6 +75,34 @@ public class SingleLinkedList {
         }
     }
 
+    public HeroNode mergeTwoLists(HeroNode l1, HeroNode l2) {
+        if (l1 == null){
+            return l2;
+        }
+        if (l2 == null){
+            return l1;
+        }
+        HeroNode cur = new HeroNode(0,"","");
+        HeroNode res = cur;
+        while (l1 != null && l2 != null){
+            if (l1.getNo() <= l2.getNo()){
+                res.next = l1;
+                res = res.next;
+                l1 = l1.next;
+            }else {
+                res.next = l2;
+                res = res.next;
+                l2 = l2.next;
+            }
+        }
+        if (l1 == null) {
+            res.next = l2;
+        } else {
+            res.next = l1;
+        }
+        return cur.next;
+    }
+
     public static HeroNode findLastIndexNode(HeroNode head,int index){
         if (head.next == null){
             return null;
@@ -91,6 +121,21 @@ public class SingleLinkedList {
             cur = cur.next;
         }
         return cur;
+    }
+
+    public static void reversePrint(HeroNode head){
+        if (head.next == null){
+            return;
+        }
+        Stack<HeroNode> stack = new Stack<>();
+        HeroNode cur = head.next;
+        while (cur != null){
+            stack.push(cur);
+            cur = cur.next;
+        }
+        while (stack.size() > 0){
+            System.out.println(stack.pop());
+        }
     }
 
     public static void reverseList(HeroNode head){
