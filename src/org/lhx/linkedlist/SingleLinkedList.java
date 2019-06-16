@@ -1,4 +1,4 @@
-package org.lhx.linkedList;
+package org.lhx.linkedlist;
 
 import java.util.Stack;
 
@@ -57,7 +57,7 @@ public class SingleLinkedList {
         //标记是否找到待删除的节点
         boolean flag = false;
         while (true){
-            if (temp == null){
+            if (temp.next == null){
                 //链表遍历结束
                 break;
             }
