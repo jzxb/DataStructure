@@ -10,6 +10,30 @@ public class ArrayStack {
     private int[] stack;
     private int top = -1;
 
+    public int getMaxSize() {
+        return maxSize;
+    }
+
+    public void setMaxSize(int maxSize) {
+        this.maxSize = maxSize;
+    }
+
+    public int[] getStack() {
+        return stack;
+    }
+
+    public void setStack(int[] stack) {
+        this.stack = stack;
+    }
+
+    public int getTop() {
+        return top;
+    }
+
+    public void setTop(int top) {
+        this.top = top;
+    }
+
     public ArrayStack(int maxSize) {
         this.maxSize = maxSize;
         stack = new int[maxSize];
@@ -35,7 +59,7 @@ public class ArrayStack {
         if (isEmpty()){
             throw new RuntimeException("栈空");
         }
-        return stack[--top];
+        return stack[top--];
     }
 
     public void list(){
