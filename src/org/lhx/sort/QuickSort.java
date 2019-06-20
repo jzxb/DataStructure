@@ -11,21 +11,21 @@ import java.util.Date;
 public class QuickSort {
 
     public static void main(String[] args) {
-//        int[] arr = {3, 9, -1, 10, -2};
-        int[] arr = new int[800000];
-        for (int i = 0; i < 800000; i++) {
-            arr[i] = (int)(Math.random() * 80000);
-        }
-
-        Date date1 = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String format = simpleDateFormat.format(date1);
-        System.out.println("排序前时间" + format);
+        int[] arr = {3, 9, -1, 10, 10, -2};
+//        int[] arr = new int[800000];
+//        for (int i = 0; i < 800000; i++) {
+//            arr[i] = (int)(Math.random() * 80000);
+//        }
+//
+//        Date date1 = new Date();
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        String format = simpleDateFormat.format(date1);
+//        System.out.println("排序前时间" + format);
         quickSort(arr,0,arr.length - 1);
-        Date date2 = new Date();
-        String format2 = simpleDateFormat.format(date2);
-        System.out.println("排序后时间" + format2);
-//        System.out.println(Arrays.toString(arr));
+//        Date date2 = new Date();
+//        String format2 = simpleDateFormat.format(date2);
+//        System.out.println("排序后时间" + format2);
+        System.out.println(Arrays.toString(arr));
     }
 
     public static void quickSort(int[] arr, int left, int right) {
