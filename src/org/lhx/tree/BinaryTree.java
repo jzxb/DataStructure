@@ -11,6 +11,18 @@ public class BinaryTree {
         this.root = root;
     }
 
+    public void delNode(int no) {
+        if (root != null) {
+            if (root.getNo() == no) {
+                root = null;
+            } else {
+                root.delNode(no);
+            }
+        } else {
+            System.out.println("空树无法删除");
+        }
+    }
+
     public void preOrder() {
         if (this.root != null) {
             this.root.preOrder();
@@ -86,6 +98,12 @@ class Test {
         System.out.println(binaryTree.infixOrderSearch(3));
         System.out.println("后");
         System.out.println(binaryTree.postOrderSearch(5));
+
+        System.out.println("删除前");
+        binaryTree.preOrder();
+        binaryTree.delNode(3);
+        System.out.println("删除后");
+        binaryTree.preOrder();
     }
 }
 
@@ -138,6 +156,23 @@ class HeroNode {
 
     public void setRight(HeroNode right) {
         this.right = right;
+    }
+
+    public void delNode(int no) {
+        if (this.left != null && this.left.no == no) {
+            this.left = null;
+            return;
+        }
+        if (this.right != null && this.right.no == no) {
+            this.right = null;
+            return;
+        }
+        if (this.left != null) {
+            this.left.delNode(no);
+        }
+        if (this.right != null) {
+            this.right.delNode(no);
+        }
     }
 
     public void preOrder() {
