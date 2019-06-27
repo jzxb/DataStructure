@@ -35,6 +35,30 @@ public class BinaryTree {
         }
     }
 
+    public HeroNode preOrderSearch(int no) {
+        if (root != null) {
+            return root.preOrderSearch(no);
+        } else {
+            return null;
+        }
+    }
+
+    public HeroNode infixOrderSearch(int no) {
+        if (root != null) {
+            return root.infixOrderSearch(no);
+        } else {
+            return null;
+        }
+    }
+
+    public HeroNode postOrderSearch(int no) {
+        if (root != null) {
+            return root.postOrderSearch(no);
+        } else {
+            return null;
+        }
+    }
+
 }
 
 class Test {
@@ -56,6 +80,12 @@ class Test {
         binaryTree.infixOrder();
         System.out.println("后");
         binaryTree.postOrder();
+        System.out.println("前");
+        System.out.println(binaryTree.preOrderSearch(4));
+        System.out.println("中");
+        System.out.println(binaryTree.infixOrderSearch(3));
+        System.out.println("后");
+        System.out.println(binaryTree.postOrderSearch(5));
     }
 }
 
@@ -142,6 +172,60 @@ class HeroNode {
             this.right.preOrder();
         }
         System.out.println(this);
+    }
+
+    public HeroNode preOrderSearch(int no) {
+        if (this.no == no) {
+            return this;
+        }
+        HeroNode res = null;
+        if (this.left != null) {
+            res = this.left.preOrderSearch(no);
+        }
+        if (res != null) {
+            return res;
+        }
+        if (this.right != null) {
+            res = this.right.preOrderSearch(no);
+        }
+        return res;
+    }
+
+    public HeroNode infixOrderSearch(int no) {
+        HeroNode res = null;
+        if (this.left != null) {
+            res = this.left.infixOrderSearch(no);
+        }
+        if (res != null) {
+            return res;
+        }
+        if (this.no == no) {
+            return this;
+        }
+        if (this.right != null) {
+            res = this.right.infixOrderSearch(no);
+        }
+        return res;
+    }
+
+    public HeroNode postOrderSearch(int no) {
+        HeroNode res = null;
+        if (this.left != null) {
+            res = this.left.postOrderSearch(no);
+        }
+        if (res != null) {
+            return res;
+        }
+        if (this.right != null) {
+            res = this.right.postOrderSearch(no);
+        }
+        if (res != null) {
+            return res;
+        }
+        if (this.no == no) {
+            return this;
+        }
+        return res;
     }
 
 }
