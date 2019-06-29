@@ -201,10 +201,10 @@ class HeroNode {
 
     public void postOrder() {
         if (this.left != null) {
-            this.left.preOrder();
+            this.left.postOrder();
         }
         if (this.right != null) {
-            this.right.preOrder();
+            this.right.postOrder();
         }
         System.out.println(this);
     }
