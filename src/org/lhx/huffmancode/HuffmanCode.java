@@ -1,5 +1,6 @@
 package org.lhx.huffmancode;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -20,24 +21,104 @@ public class HuffmanCode {
      */
 
     public static void main(String[] args) {
-        String str = "i like like like java do you like a java";
-//        byte[] strBytes = str.getBytes();
-//        System.out.println(strBytes.length);
-//        List<Node> nodes = getNodes(strBytes);
-//        System.out.println(nodes);
-//        Node huffmanTree = createHuffmanTree(nodes);
-//        System.out.println();
-//        preOrder(huffmanTree);
-//
-//        Map<Byte, String> codes = getCodes(huffmanTree);
-//        System.out.println(codes);
-//
-//        byte[] bytes = zip(strBytes, codes);
-//        System.out.println(Arrays.toString(bytes));
-        byte[] huffmanZIP = huffmanZIP(str);
-        System.out.println(Arrays.toString(huffmanZIP));
-        byte[] decode = decode(huffmanCodes, huffmanZIP);
-        System.out.println(new String(decode));
+        String zipFile = "d://dst.zip";
+        String dstFile = "d://all2.docx";
+        unZipFile(zipFile, dstFile);
+//        String srcFile = "d://all.docx";
+//        String dstFile = "d://dst.zip";
+//        zipFile(srcFile, dstFile);
+//        String str = "i like like like java do you like a java";
+////        byte[] strBytes = str.getBytes();
+////        System.out.println(strBytes.length);
+////        List<Node> nodes = getNodes(strBytes);
+////        System.out.println(nodes);
+////        Node huffmanTree = createHuffmanTree(nodes);
+////        System.out.println();
+////        preOrder(huffmanTree);
+////
+////        Map<Byte, String> codes = getCodes(huffmanTree);
+////        System.out.println(codes);
+////
+////        byte[] bytes = zip(strBytes, codes);
+////        System.out.println(Arrays.toString(bytes));
+//        byte[] bytes = str.getBytes();
+//        byte[] huffmanZIP = huffmanZIP(bytes);
+//        System.out.println(Arrays.toString(huffmanZIP));
+//        byte[] decode = decode(huffmanCodes, huffmanZIP);
+//        System.out.println(new String(decode));
+    }
+
+    /**
+     * 完成对文件的解压
+     * @param zipFile 准备解压的文件
+     * @param dstFile 解压后文件存放的路径
+     */
+    public static void unZipFile(String zipFile, String dstFile) {
+        InputStream inputStream = null;
+        ObjectInputStream objectInputStream = null;
+        OutputStream outputStream = null;
+        try {
+            inputStream = new FileInputStream(zipFile);
+            objectInputStream = new ObjectInputStream(inputStream);
+            //读取byte数组
+            byte[] hufamanBytes = (byte[]) objectInputStream.readObject();
+            //读取哈夫曼编码表
+            Map<Byte, String> huffmanCodes = (Map<Byte, String>)objectInputStream.readObject();
+            //解码
+            byte[] decode = decode(huffmanCodes, hufamanBytes);
+            //将byte数组写入到文件中
+            outputStream = new FileOutputStream(dstFile);
+            //写数据
+            outputStream.write(decode);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                inputStream.close();
+                outputStream.close();
+                objectInputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 将文件进行压缩
+     * @param srcFile 传入的希望压缩的文件的全路径
+     * @param dstFile 将压缩后的文件放入到哪个目录
+     */
+    public static void zipFile(String srcFile, String dstFile) {
+        //创建输入流
+        FileInputStream fileInputStream = null;
+        OutputStream fileOutputStream = null;
+        ObjectOutputStream objectOutputStream = null;
+        try {
+            fileInputStream = new FileInputStream(srcFile);
+            //创建一个和源文件大小一样的byte[]
+            byte[] b = new byte[fileInputStream.available()];
+            //读取文件
+            fileInputStream.read(b);
+            //直接对源文件压缩
+            byte[] bytes = huffmanZIP(b);
+            //创建文件输出流，存放压缩文件
+            fileOutputStream = new FileOutputStream(dstFile);
+            objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            //把哈夫曼编码后的字节数组写入压缩文件
+            objectOutputStream.writeObject(bytes);
+            //以对象流的方式写入哈夫曼编码。为了以后恢复原文件时使用
+            objectOutputStream.writeObject(huffmanCodes);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                fileInputStream.close();
+                objectOutputStream.close();
+                fileOutputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -106,11 +187,10 @@ public class HuffmanCode {
     }
 
     /**
-     * @param str 原始字符串
+     * @param bytes 原始字符串对应的byte[]
      * @return 经过哈夫曼编码处理后的字节树
      */
-    private static byte[] huffmanZIP(String str) {
-        byte[] bytes = str.getBytes();
+    private static byte[] huffmanZIP(byte[] bytes) {
         List<Node> nodes = getNodes(bytes);
         Node huffmanTree = createHuffmanTree(nodes);
         Map<Byte, String> codes = getCodes(huffmanTree);
