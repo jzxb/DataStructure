@@ -50,6 +50,7 @@ public class HuffmanCode {
 
     /**
      * 完成对文件的解压
+     *
      * @param zipFile 准备解压的文件
      * @param dstFile 解压后文件存放的路径
      */
@@ -63,7 +64,7 @@ public class HuffmanCode {
             //读取byte数组
             byte[] hufamanBytes = (byte[]) objectInputStream.readObject();
             //读取哈夫曼编码表
-            Map<Byte, String> huffmanCodes = (Map<Byte, String>)objectInputStream.readObject();
+            Map<Byte, String> huffmanCodes = (Map<Byte, String>) objectInputStream.readObject();
             //解码
             byte[] decode = decode(huffmanCodes, hufamanBytes);
             //将byte数组写入到文件中
@@ -85,6 +86,7 @@ public class HuffmanCode {
 
     /**
      * 将文件进行压缩
+     *
      * @param srcFile 传入的希望压缩的文件的全路径
      * @param dstFile 将压缩后的文件放入到哪个目录
      */
@@ -141,7 +143,7 @@ public class HuffmanCode {
         }
         //创建一个集合存放byte
         List<Byte> list = new ArrayList<>();
-        for (int i = 0; i < stringBuilder.length();) {
+        for (int i = 0; i < stringBuilder.length(); ) {
             //计数器
             int count = 1;
             boolean flag = true;
@@ -278,7 +280,7 @@ public class HuffmanCode {
 
     private static List<Node> getNodes(byte[] bytes) {
         List<Node> nodes = new ArrayList<>();
-        //遍历bates，统计每个字符出现的次数存入map中
+        //遍历bytes，统计每个字符出现的次数存入map中
         Map<Byte, Integer> map = new HashMap<>();
         for (byte b : bytes) {
             Integer count = map.get(b);
