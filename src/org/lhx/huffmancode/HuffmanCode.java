@@ -36,10 +36,76 @@ public class HuffmanCode {
 //        System.out.println(Arrays.toString(bytes));
         byte[] huffmanZIP = huffmanZIP(str);
         System.out.println(Arrays.toString(huffmanZIP));
+        byte[] decode = decode(huffmanCodes, huffmanZIP);
+        System.out.println(new String(decode));
     }
 
     /**
+     * @param huffmanCodes 哈夫曼编码表 map
+     * @param huffmanBytes 哈夫曼编码得到的字节数组
+     * @return 原来字符串对应的数组
+     */
+    private static byte[] decode(Map<Byte, String> huffmanCodes, byte[] huffmanBytes) {
+        //先得到huffmanBytes 对应的二进制字符串
+        StringBuilder stringBuilder = new StringBuilder();
+        //将byte[]转成二进制字符串
+        for (int i = 0; i < huffmanBytes.length; i++) {
+            boolean flag = (i == huffmanBytes.length - 1);
+            stringBuilder.append(byteToBitStrting(!flag, huffmanBytes[i]));
+        }
+        //把字符串按照指定的哈夫曼编码进行解码
+        Map<String, Byte> map = new HashMap<>();
+        for (Map.Entry<Byte, String> entry : huffmanCodes.entrySet()) {
+            map.put(entry.getValue(), entry.getKey());
+        }
+        //创建一个集合存放byte
+        List<Byte> list = new ArrayList<>();
+        for (int i = 0; i < stringBuilder.length();) {
+            //计数器
+            int count = 1;
+            boolean flag = true;
+            Byte b = null;
+            while (flag) {
+                String key = stringBuilder.substring(i, i + count);
+                b = map.get(key);
+                if (b == null) {
+                    count++;
+                } else {
+                    flag = false;
+                }
+            }
+            list.add(b);
+            i += count;
+        }
+
+        byte[] b = new byte[list.size()];
+        for (int i = 0; i < b.length; i++) {
+            b[i] = list.get(i);
+        }
+        return b;
+    }
+
+    /**
+     * 将一个byte转为二进制字符串
      *
+     * @param flag 标识是否需要补高位 true表示需要，false表示不需要,如果是最后一个字节，无需补高位
+     * @param b    传入的byte
+     * @return 该b对应的二进制字符串，按补码返回
+     */
+    private static String byteToBitStrting(boolean flag, byte b) {
+        int temp = b;
+        if (flag) {
+            temp |= 256;
+        }
+        String string = Integer.toBinaryString(temp);
+        if (flag) {
+            return string.substring(string.length() - 8);
+        } else {
+            return string;
+        }
+    }
+
+    /**
      * @param str 原始字符串
      * @return 经过哈夫曼编码处理后的字节树
      */
@@ -54,6 +120,7 @@ public class HuffmanCode {
 
     /**
      * 编写一个将字符串转为对应byte数组，通过生成的哈夫曼编码表，返回一个哈夫曼编码压缩后的byte[]
+     *
      * @param bytes        原始的字符串对应的byte[]
      * @param huffmanCodes 生成的哈夫曼编码
      * @return 返回哈夫曼编码处理后的byte[]
