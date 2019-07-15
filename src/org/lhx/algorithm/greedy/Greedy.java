@@ -1,4 +1,4 @@
-package org.lhx.greedy;
+package org.lhx.algorithm.greedy;
 
 import java.util.*;
 
